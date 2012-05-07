@@ -20,7 +20,14 @@ use Spork\Exception\UnexpectedTypeException;
 
 class ProcessManager
 {
+	/**
+	 * @var FactoryInterface
+	 */
     private $factory;
+    
+    /**
+     * @var array
+     */
     private $defers;
 
     public function __construct(FactoryInterface $factory)
@@ -53,7 +60,9 @@ class ProcessManager
         $pid = pcntl_fork();
 
         if (-1 === $pid) {
+        	// @codeCoverageIgnoreStart
             throw new ProcessControlException('Unable to fork a new process');
+            // @codeCoverageIgnoreEnd
         }
 
         if (0 === $pid) {
@@ -80,6 +89,7 @@ class ProcessManager
 
     /**
      * Waits for all child processes to exit.
+     * @return void
      */
     public function wait($hang = true)
     {
