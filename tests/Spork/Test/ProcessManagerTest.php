@@ -65,4 +65,18 @@ class ProcessManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(array('', 'fail'), $log);
     }
+    
+    /**
+     * @expectedException Spork\Exception\UnexpectedTypeException
+     */
+    public function testInvalidCallbacks()
+    {
+    	$this->manager->fork(false);
+    }
+    
+    public function testClone()
+    {
+    	$clone = clone $this->manager;
+    	$this->assertInstanceOf('Spork\ProcessManager', $clone);
+    }
 }
